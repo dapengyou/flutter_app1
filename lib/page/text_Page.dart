@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -84,7 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   splashColor: Colors.grey,
                   child: Text("Submit"),
                   shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-                  onPressed: () {},
+                  onPressed: () {
+                    EasyLoading.showToast('Toast');
+                  },
                 ),
               ],
             ),

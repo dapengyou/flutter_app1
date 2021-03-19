@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_app1/utils/string_util.dart';
+import 'package:webview_flutter/platform_interface.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewJsPage extends StatefulWidget {
@@ -22,7 +23,7 @@ class _WebViewJsPageState extends State<WebViewJsPage> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
+    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override
@@ -41,12 +42,17 @@ class _WebViewJsPageState extends State<WebViewJsPage> {
           children: [
             WebView(
               //允许js调用
+              initialUrl: 'http://wzw.test.oupeng.com/signin',//加载任务页
               javascriptMode: JavascriptMode.unrestricted,
               javascriptChannels: <JavascriptChannel>[
                 _alertJavascriptChannel(context),
+                // _userInfoJavascriptChannel(context)
               ].toSet(),
-              initialUrl: _loadHtmlFromAsset().toString(),
-              // initialUrl: 'http://wzw.test.oupeng.com/signin',//加载任务页
+              // initialUrl: _loadHtmlFromAsset().toString(),
+              onWebResourceError:(WebResourceError error){//获取资源失败
+                _loadHtmlFromAsset('assets/error_page.html')
+                    .toString();
+              },
               //需要打开的url
               onWebViewCreated: (WebViewController controller) {
                 //页面加载的时候可以获取到controller可以用来reload等操作
@@ -85,14 +91,19 @@ class _WebViewJsPageState extends State<WebViewJsPage> {
                 : Container(),
           ],
         ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            _controller.future.then((value) => value.evaluateJavascript('flutterCallJS("hidden")'));
+          },
+        ),
       ),
     );
   }
 
   //加载本地的html
-  Future _loadHtmlFromAsset() async {
-    String html = 'assets/test_js.html';
-    final String path = await rootBundle.loadString(html);
+  Future _loadHtmlFromAsset(String text) async {
+    // String html = 'assets/test_js.html';
+    final String path = await rootBundle.loadString(text);
     //webviewController 在webview初始化时可获得
     await _controller.future.then((value) => value.loadUrl(Uri.dataFromString(
             path,
@@ -105,13 +116,23 @@ class _WebViewJsPageState extends State<WebViewJsPage> {
     return JavascriptChannel(
         name: 'OupengJsInterface',
         onMessageReceived: (JavascriptMessage message) {
-          if (mounted) {
-            setState(() {
-              showToast(message.message);
-            });
+          showToast(message.message);
+        });
+  }
+
+  JavascriptChannel _userInfoJavascriptChannel(BuildContext context) {
+    return JavascriptChannel(
+        name: 'OupengJsInterface.getUserInfo',
+        onMessageReceived: (JavascriptMessage message) {
+          showToast(message.message);
+          print(message.message != null);
+          if (message.message != null) {
+            print('刷新页面');
+            _controller.future.then((value) => value.reload());
           }
         });
   }
+
 
   //webview 回退
   Future _goBack(BuildContext context) async {
@@ -130,4 +151,6 @@ class _WebViewJsPageState extends State<WebViewJsPage> {
 
     return true;
   }
+
+
 }

@@ -4,6 +4,7 @@ import 'package:flutter_app1/page/card.dart';
 import 'package:flutter_app1/page/text_Page.dart';
 import 'package:flutter_app1/main_page_setting.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 void main() {
   runApp(HomePage());
 }

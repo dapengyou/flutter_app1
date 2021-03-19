@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title>404</title>
+    <style type="text/css">
+        html,body{height:100%;}
+        body{width:100%;background: #fbfbfb;margin: 0;padding:0;}
+        img{display:block;width:35%;margin:0 auto;}
+        h2,h3{text-align: center;color:#b7b8be;margin-top: 15px;margin-bottom: 0;}
+        h2{font-size: 24px;font-weight: 500;}
+        h3{font-size: 16px;font-weight: 500;}
+        p{text-align: center;margin-top: 46px;}
+        button{height:40px;width:130px;background: #ffffff;font-size:14px;color:#999a9f;border:1px solid #cecece;border-radius: 2px;margin: 0 auto;}
+        .content{display:none;margin:auto 0;height:300px;}
+
+
+    </style>
+</head>
+<body>
+<div class="content">
+<!--    <img src="file:///android_asset/preinstall/errorpage/error_1.png"/>-->
+    <h2>I'm&nbspSorry&nbsp!</h2>
+    <h3>您访问的页面不见了...</h3>
+    <p>
+        <button class="btn" onclick="callFlutter()">刷新</button>
+    </p>
+</div>
+<div class="content">
+<!--    <img src="file:///android_asset/preinstall/errorpage/error_2.png"/>-->
+    <h2>哎呦&nbsp!</h2>
+    <h3>您访问的页面消失了...</h3>
+    <p>
+        <button class="btn" onclick="callFlutter()">刷新</button>
+    </p>
+</div>
+<div class="content">
+<!--    <img src="file:///android_asset/preinstall/errorpage/error_3.png"/>-->
+    <h2>糟糕&nbsp!</h2>
+    <h3>您的页面被小猫吃掉了...</h3>
+    <p>
+        <button class="btn" onclick="callFlutter()">刷新</button>
+    </p>
+</div>
+<div class="content">
+<!--    <img src="file:///android_asset/preinstall/errorpage/error_4.png"/>-->
+    <h2>Sorry&nbsp!</h2>
+    <h3>您访问的页面已失踪...</h3>
+    <p>
+        <button class="btn" onclick="callFlutter()">刷新</button>
+    </p>
+</div>
+<script type="text/javascript">
+		var num = parseInt(Math.random()*10%4);
+		var content = document.getElementsByClassName('content');
+		content[num].style.display = 'block';
+		setTimeout(function(){
+			var wh = document.documentElement.clientHeight;
+
+			if(wh>300){
+				content[num].style.paddingTop = (wh-300)/2-40+"px";
+			}else{
+				content[num].style.paddingTop = '10px';
+			}
+		},10);
+
+ function callFlutter(){
+        OupengJsInterface.postMessage('刷新');
+    }
+
+
+</script>
+</body>
+</html>

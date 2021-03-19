@@ -10,28 +10,25 @@
 </head>
 
 <body style="text-align:center;">
-<h2 >flutter与js交互</h2>
-<div> <span>你要输入的值:</span> <input type="text" id="input"></div>
-<div id="btn"> <button type="button">点我</button></div>
+<h2>flutter与js交互</h2>
+<button type="button" onclick="callFlutter()">js调用flutter</button>
+<p id="p1" style="visibility:visible;">
+    Flutter 调用了 JS.
+    Flutter 调用了 JS.
+    Flutter 调用了 JS.
+</p>
 
 <script type="text/javascript">
-    var buttonEle = document.getElementById("btn");
-    var inputEle = document.getElementById("input");
 
-    buttonEle.addEventListener("click", function() {
-      var str = inputEle.value;
-      if (window.OupengJsInterface) {
-        OupengJsInterface.postMessage("你好");
-      } else {
-        alert("不存在");
-      }
-
-    });
-
-    var remote = function(str) {
-      inputEle.value = str;
+    function callFlutter(){
+        OupengJsInterface.postMessage('js调用flutter');
     }
-  </script>
+
+    function flutterCallJS(message){
+        document.getElementById("p1").style.visibility = message;
+    }
+
+</script>
 </body>
 
 </html>
