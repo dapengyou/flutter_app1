@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app1/page/button_home_page.dart';
 import 'package:flutter_app1/page/card.dart';
+import 'package:flutter_app1/page/countdown_page.dart';
+import 'package:flutter_app1/page/countdown_timer_page.dart';
 import 'package:flutter_app1/page/text_Page.dart';
 
 class MyTestPage extends StatefulWidget {
@@ -28,6 +30,8 @@ class _MyTestPageState extends State<MyTestPage> {
             textStudy(context: context),
             buttonStudy(context: context),
             cardStudy(context: context),
+            buildItem(context,"countdown", CountdownPage()),
+            buildItem(context,"countdown page", CountdownTimerPage()),
           ],
         ),
       ),
@@ -95,6 +99,23 @@ Widget textStudy({BuildContext context}) {
         '文字组件学习',
         style: TextStyle(fontSize: 20.0),
       ),
+    ),
+  );
+}
+Widget buildItem(BuildContext context,String title, Widget page) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+        return page;
+      }));
+    },
+    child: Container(
+      margin: const EdgeInsets.all(5),
+      color: Colors.blue,
+      width: double.infinity,
+      alignment: Alignment.center,
+      height: 100,
+      child: Text(title, style: TextStyle(fontSize: 36),),
     ),
   );
 }
